@@ -190,7 +190,6 @@ export class Game {
     }, sig);
     el.addEventListener('contextmenu', (e) => { e.preventDefault(); this.select(null); }, sig);
 
-    document.querySelectorAll('#nav button').forEach((b) => b.addEventListener('click', () => this.go(b.dataset.go), sig));
     document.getElementById('btn-hint').addEventListener('click', () => this.hint(), sig);
     const sb = document.getElementById('btn-sound');
     sb.classList.toggle('off', sound.muted);

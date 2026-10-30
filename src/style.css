@@ -29,27 +29,11 @@ button { font-family: inherit; }
 #hud { position: fixed; inset: 0; pointer-events: none; }
 #hud > * { pointer-events: auto; }
 
-#nav { position: absolute; top: 14px; left: 16px; display: flex; gap: 14px; flex-wrap: wrap; max-width: calc(100% - 260px); }
-.navbox {
-  display: flex; align-items: center; gap: 4px;
-  padding: 4px 10px;
-  border: 2px solid var(--line); border-radius: 8px;
-  background: rgba(8, 6, 6, 0.72);
-  backdrop-filter: blur(3px);
-}
-.navbox button {
-  background: none; border: 0; color: #f3efe6; font-size: 17px; letter-spacing: 1px;
-  padding: 6px 10px; cursor: pointer; border-radius: 5px; font-weight: 700;
-}
-.navbox button:hover { background: rgba(160, 20, 20, 0.45); }
-.navbox button.dim { color: #b7b0a6; font-weight: 400; }
-.navbox .sep { color: #aaa; padding: 0 2px; }
-
 #topright { position: absolute; top: 14px; right: 16px; display: flex; gap: 10px; align-items: center; }
 .round {
   width: 46px; height: 46px; border-radius: 50%;
   border: 2px solid var(--line); background: rgba(8, 6, 6, 0.72); color: #f3efe6;
-  font-size: 15px; font-weight: 700; cursor: pointer;
+  font-size: 15px; font-weight: 700; cursor: pointer; padding: 0; white-space: nowrap;
 }
 .round:hover { background: rgba(160, 20, 20, 0.5); }
 .round.off { opacity: 0.45; text-decoration: line-through; }
@@ -256,9 +240,9 @@ button { font-family: inherit; }
 #btn-restart:hover { background: #a32019; }
 
 @media (max-width: 720px) {
-  #nav { max-width: calc(100% - 32px); top: 10px; left: 10px; gap: 8px; }
-  .navbox button { font-size: 14px; padding: 5px 6px; }
-  #topright { top: auto; bottom: 100px; right: 10px; flex-direction: column; align-items: flex-end; }
+  #topright { top: 10px; right: 10px; gap: 8px; }
+  .round { width: 40px; height: 40px; font-size: 14px; }
+  #incense { height: 40px; }
   #incense .stick { width: 70px; }
   .slot { width: 46px; height: 46px; }
   .slot img { width: 40px; height: 40px; }
