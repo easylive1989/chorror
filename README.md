@@ -2,7 +2,7 @@
 
 中式恐怖密室逃脫。中元夜，在祖父書齋裡的那炷香燒盡之前，找出離開的方法。
 
-**線上遊玩：** https://easylive1989.github.io/chorror/
+**線上遊玩：** https://paul-learning.dev/chorror/
 
 ## 操作
 
