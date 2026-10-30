@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>香盡</title>
+<meta name="description" content="中式恐怖密室逃脫：中元夜，在香燒盡之前離開祖父的書齋。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div id="hud" class="hidden">
+  <nav id="nav">
+    <div class="navbox">
+      <button data-go="center" class="dim">回中心</button>
+      <span class="sep">⋮</span>
+      <button data-go="bookshelf">書架</button>
+      <button data-go="curio">博古架</button>
+      <button data-go="desk">書桌</button>
+      <button data-go="altar">供桌</button>
+    </div>
+    <div class="navbox"><button data-go="gate">月洞門</button></div>
+  </nav>
+
+  <div id="topright">
+    <div id="incense" title="香">
+      <div class="stick"><div class="burn"></div><div class="ember"></div></div>
+      <div class="label"><span>香</span><b id="incense-text">—</b></div>
+    </div>
+    <button id="btn-hint" class="round" title="提示（香會燒得更快）">提示</button>
+    <button id="btn-sound" class="round" title="聲音">聲</button>
+  </div>
+
+  <div id="tooltip"></div>
+  <div id="using"></div>
+  <div id="message"></div>
+
+  <div id="inventory">
+    <div id="slots"></div>
+    <button id="btn-inspect" class="hidden">查看</button>
+  </div>
+</div>
+
+<div id="modal" class="hidden">
+  <div class="panel">
+    <button class="close" aria-label="關閉">✕</button>
+    <div class="body"></div>
+  </div>
+</div>
+
+<div id="title">
+  <div class="title-inner">
+    <h1>香<span>盡</span></h1>
+    <p class="sub">中元夜・祖宅書齋</p>
+    <p class="warn">本作含驚嚇畫面、閃爍與突發音效。<br />建議戴上耳機，在暗處遊玩。</p>
+    <button id="btn-start" disabled>載入中⋯</button>
+    <p class="how">拖曳畫面環顧四周・點擊物品調查<br />先在下方背包選取物品，再點擊目標即可使用</p>
+  </div>
+</div>
+
+<div id="story" class="hidden"><div class="lines"></div></div>
+<div id="flash"></div>
+
+<div id="ending" class="hidden">
+  <div class="ending-inner">
+    <div class="lines"></div>
+    <h2></h2>
+    <p class="stats"></p>
+    <button id="btn-restart">重新點香</button>
+  </div>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
