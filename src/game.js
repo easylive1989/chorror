@@ -192,8 +192,12 @@ export class Game {
 
     document.getElementById('btn-hint').addEventListener('click', () => this.hint(), sig);
     const sb = document.getElementById('btn-sound');
-    sb.classList.toggle('off', sound.muted);
-    sb.addEventListener('click', () => { sound.setMuted(!sound.muted); sb.classList.toggle('off', sound.muted); }, sig);
+    const syncSound = () => {
+      sb.classList.toggle('off', sound.muted);
+      sb.setAttribute('aria-label', sound.muted ? '開啟聲音' : '關閉聲音');
+    };
+    syncSound();
+    sb.addEventListener('click', () => { sound.setMuted(!sound.muted); syncSound(); }, sig);
     document.getElementById('btn-inspect').addEventListener('click', () => this.inspect(this.s.sel), sig);
     addEventListener('keydown', (e) => {
       if (ui.modalOpen) return;
