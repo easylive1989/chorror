@@ -84,16 +84,23 @@ export function plaster() {
     ctx.fillStyle = '#d6cdbb';
     ctx.fillRect(0, 0, 1024, 1024);
     speckle(ctx, 1024, 1024, 9000, 3, ['#bfb39b', '#e4dccb', '#a99c84'], 0.35, r);
-    // water stains & mould
-    for (let i = 0; i < 18; i++) {
-      const x = r() * 1024, y = r() * 1024, rad = 40 + r() * 200;
-      const g = ctx.createRadialGradient(x, y, rad * 0.2, x, y, rad);
-      g.addColorStop(0, 'rgba(90,70,40,0.0)');
-      g.addColorStop(0.8, `rgba(90,70,40,${0.08 + r() * 0.12})`);
-      g.addColorStop(1, 'rgba(90,70,40,0)');
-      ctx.fillStyle = g;
-      ctx.fillRect(x - rad, y - rad, rad * 2, rad * 2);
+    // water stains & mould: irregular, blurred blotches (solid ones, so they never read as rings)
+    ctx.save();
+    ctx.filter = 'blur(22px)';
+    for (let i = 0; i < 12; i++) {
+      const x = r() * 1024, y = r() * 1024, rad = 50 + r() * 150;
+      ctx.fillStyle = `rgba(95,76,48,${0.05 + r() * 0.07})`;
+      ctx.beginPath();
+      const n = 11;
+      for (let k = 0; k < n; k++) {
+        const a = (k / n) * Math.PI * 2, rr = rad * (0.45 + r() * 0.75);
+        const px = x + Math.cos(a) * rr, py = y + Math.sin(a) * rr * (0.6 + r() * 0.5);
+        if (k) ctx.lineTo(px, py); else ctx.moveTo(px, py);
+      }
+      ctx.closePath();
+      ctx.fill();
     }
+    ctx.restore();
     for (let i = 0; i < 14; i++) {
       // drips from the top
       const x = r() * 1024, len = 100 + r() * 500;
