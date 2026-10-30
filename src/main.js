@@ -12,6 +12,8 @@ renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
 renderer.setSize(innerWidth, innerHeight);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFShadowMap;
+// the moonlight only falls on furniture that barely moves, so refresh its shadow map every few frames
+renderer.shadowMap.autoUpdate = false;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.35;
 
@@ -84,7 +86,9 @@ const { Game, ui, sound } = await import('./game.js');
 let game = new Game(ctx);
 
 const clock = new THREE.Clock();
+let frame = 0;
 renderer.setAnimationLoop(() => {
+  if (frame++ % 4 === 0) renderer.shadowMap.needsUpdate = true;
   const dt = Math.min(clock.getDelta(), 0.05);
   const t = clock.elapsedTime;
   for (const u of ctx.world.updaters) u(t, dt);

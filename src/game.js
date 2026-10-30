@@ -68,7 +68,7 @@ const EFFIGY_LINES = [
   '紙人的眼睛沒有眼白。你總覺得她在看你。',
   '別盯著她太久。',
 ];
-const EFFIGY_SPOTS = [V(4.15, 0, 3.15), V(3.85, 0, 1.9), V(-3.7, 0, 3.2), V(-1.0, 0, 3.0), V(0.15, 0, 3.05)];
+const EFFIGY_SPOTS = [V(4.15, 0, 3.15), V(3.85, 0, 1.9), V(-2.9, 0, 3.25), V(-1.0, 0, 3.0), V(0.15, 0, 3.05)];
 
 const NAME_CHARS = ['陳', '林', '秋', '春', '繡', '秀', '阿', '守', '月', '仁', '紅', '王'];
 
@@ -378,6 +378,23 @@ export class Game {
         return ui.msg(s.mirrorSeen ? '「還我名字」。墨還在往下滴。' : '「上善若水」。祖父的字。');
       case 'lantern': return ui.msg('紅燈籠上貼著「囍」字。辦喜事用的燈籠，掛在這裡很不對勁。');
       case 'frontwall': return ui.msg('門不見了。牆上只有指甲刮出來的痕跡⋯⋯是從裡面刮的。');
+      case 'dress': sound.drip(); return ui.msg('衣桁上攤著一件紅嫁衣。袖口是濕的，還在滴水。');
+      case 'paperHouse': return ui.msg('燒給往生者的紙厝。二樓的小窗裡，好像有人影。');
+      case 'wreath': return ui.msg('輓帶上寫著「千古」。另一個花圈的輓帶，被撕掉了。');
+      case 'couplet': return ui.msg('「音容宛在，德範長存」。白布上的墨，暈開了一點。');
+      case 'brazier': return ui.msg('火盆裡的紙錢還沒燒完。灰燼底下，露出一角紅紙。');
+      case 'teaTable': return ui.msg('桌上擺著三個茶杯。可是你只泡了一杯茶。');
+      case 'rug': return ui.msg('地毯上有幾個燒焦的小洞，排成一行，像腳印。');
+      case 'boxes': return ui.msg('紙箱上是你自己的字：「書・爺爺」。才收到一半。');
+      case 'sideTable': return ui.msg('條案上有一個相框，正面朝下。你沒有把它翻過來。');
+      case 'clock': return ui.msg('掛鐘停了。停在十一點五十九分——子時前一分。');
+      case 'chests':
+        sound.whisper(1.2, 0.5);
+        return ui.msg('樟木箱上了鎖。裡面傳出指甲刮木頭的聲音。');
+      case 'screen': return ui.msg('絹面山水，下緣發了霉。屏風後面⋯⋯你不太想看。');
+      case 'palaceLantern': return ui.msg('宮燈裡的蠟燭早就燒完了。燈罩上畫著紅梅。');
+      case 'plantStand': return ui.msg('蘭花枯了，葉子全朝月洞門那邊彎過去。');
+      case 'floorVase': return ui.msg('瓶裡插著枯枝。其中一根枝上，綁著一條紅繩。');
     }
   }
 
@@ -923,6 +940,7 @@ export class Game {
     R.lanternBase = 0;
     R.altarBase = 0;
     R.lampBase = 0;
+    R.brazierBase = 0;
     for (const c of R.candles) { c.flame.visible = false; c.glow.visible = false; }
     R.lamp.flame.visible = false;
     R.lamp.glow.visible = false;

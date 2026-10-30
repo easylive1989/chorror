@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { Reflector } from 'three/addons/objects/Reflector.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import * as T from './textures.js';
+import { buildDecor } from './decor.js';
 
 // Room: x ∈ [-5, 5], z ∈ [-4, 4], y ∈ [0, 3.6]. Back wall (z = -4) holds the moon gate and the window.
 export const GATE = { x: -1.6, y: 1.3, r: 1.15 };
@@ -338,6 +339,8 @@ export function buildWorld(scene) {
   root.add(effigy);
   reg(effigy, 'effigy', '紙紮新娘', 'effigy');
   R.effigy = effigy;
+  // ---------- Set dressing from the redesign ----------
+  buildDecor(W, reg, { mWood, mWoodMid, mBrass, mBronze });
   // ---------- Ghost (only seen in the mirror, at the end, and when the incense dies) ----------
   const ghost = buildGhost();
   ghost.visible = false;
