@@ -146,6 +146,7 @@ if (import.meta.env.DEV) {
     const g = window.__game;
     const v = name === 'mirror' ? g.mirrorView() : name === 'effigy' ? g.effigyView() : g.constructor.VIEWS[name];
     g.view = name;
+    g.updateBack();
     rig.set(v.pos, v.look);
     return name;
   };

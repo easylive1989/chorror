@@ -37,6 +37,13 @@ const VIEWS = {
   ritual: { pos: V(1.9, 1.6, 0.15), look: V(4.6, 1.15, 0.85) },
 };
 const FOCUS = new Set(['mirror', 'effigy', 'window', 'radio']);
+// close-up views: any click on furniture that belongs elsewhere walks you out of them
+const CLOSEUPS = new Set(['mirror', 'effigy', 'window', 'radio', 'drawer', 'frontwall']);
+// where "step back" leads from each view
+const PARENT = {
+  mirror: 'desk', drawer: 'desk', window: 'desk', radio: 'center', effigy: 'center', frontwall: 'center',
+  bookshelf: 'center', curio: 'center', desk: 'center', altar: 'center', gate: 'center',
+};
 
 const BRANCHES = [
   ['子', '23–1時'], ['丑', '1–3時'], ['寅', '3–5時'], ['卯', '5–7時'], ['辰', '7–9時'], ['巳', '9–11時'],
@@ -117,6 +124,7 @@ export class Game {
 
     this.rig.set(VIEWS.frontwall.pos, VIEWS.frontwall.look);
     this.bindInput();
+    this.updateBack();
     this.renderInv();
     ui.setIncense(1, '', false);
   }
@@ -188,7 +196,17 @@ export class Game {
       down = null;
       el.classList.remove('dragging');
     }, sig);
-    el.addEventListener('contextmenu', (e) => { e.preventDefault(); this.select(null); }, sig);
+    el.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      if (this.s.sel) this.select(null); else this.back();
+    }, sig);
+    let lastWheel = 0;
+    el.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const now = performance.now();
+      if (e.deltaY > 0 && now - lastWheel > 700) { lastWheel = now; this.back(); }
+    }, { signal: this.ac.signal, passive: false });
+    document.getElementById('btn-back').addEventListener('click', () => this.back(), sig);
 
     document.getElementById('btn-hint').addEventListener('click', () => this.hint(), sig);
     const sb = document.getElementById('btn-sound');
@@ -201,7 +219,7 @@ export class Game {
     document.getElementById('btn-inspect').addEventListener('click', () => this.inspect(this.s.sel), sig);
     addEventListener('keydown', (e) => {
       if (ui.modalOpen) return;
-      if (e.key === 'Escape') this.select(null);
+      if (e.key === 'Escape') { if (this.s.sel) this.select(null); else this.back(); }
     }, sig);
   }
 
@@ -239,7 +257,7 @@ export class Game {
     const st = hit.obj.userData.station;
     if (FOCUS.has(st)) {
       if (this.view !== st) await this.go(st);
-    } else if (st && this.view !== st && hit.dist > 2.6) {
+    } else if (st && this.view !== st && (hit.dist > 2.6 || CLOSEUPS.has(this.view))) {
       await this.go(st);
       return;
     }
@@ -254,9 +272,21 @@ export class Game {
     if (name === 'effigy') v = this.effigyView();
     if (!v) return;
     this.view = name;
+    this.updateBack();
     this.dropPicked();
     await this.rig.goTo(v.pos, v.look, 1.1);
     if (name === 'effigy') this.s.effigyMovedSinceLook = false;
+  }
+
+  back() {
+    if (this.busy || ui.modalOpen || this.rig.moving || this.s.ended) return;
+    if (!this.s.running && !this.s.ritualDone) return;
+    const to = PARENT[this.view];
+    if (to) this.go(to);
+  }
+
+  updateBack() {
+    document.getElementById('btn-back').classList.toggle('hidden', !PARENT[this.view]);
   }
 
   mirrorView() {
